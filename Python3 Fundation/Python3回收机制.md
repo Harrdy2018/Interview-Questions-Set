@@ -30,8 +30,8 @@ gc.set_debug(flags)
 gc.collect(generation=2)
 
 一,  什么情况下触发python垃圾回收  
-`import gc  
-print(gc.get_threshold())  
+`import gc
+print(gc.get_threshold())
 >>>(700, 10, 10)`  
 当没有释放的对象个数超过700，即开始0级垃圾回收，0级垃圾回收超过10次即开始1级垃圾回收，1级垃圾回收清除包括0级垃圾，1级垃圾回收超过10次，即开始2级垃圾回收，2级垃圾回收清除包括0级，1级垃级。垃圾回收机制python默认开启的，gc.disabled可关闭垃圾回收机制，当程序完成时，垃圾最后仍被回收，当gc.disabled时，gc.collect手动开启垃圾回收机制。
 二，  查看一个对象的引用计数   
