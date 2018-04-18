@@ -27,7 +27,7 @@ Disable automatic garbage collection.
 Returns true if automatic collection is enabled.   
 7. gc.set_debug(flags)
 设置gc的debug日志，一般设置为gc.DEBUG_LEAK  
-8. gc.collect(generation=2)
+8. gc.collect(generation=2)<br>
 没有参数，运行一个完整的集合。 可选参数的生成可以是一个整数，指定要收集哪一代（从0到2）。如果代号数字是无效的，则会引发ValueError异常。返回不可达（unreachable objects）对象的数量 
 ### 垃圾回收机制有关问题
 * 什么情况下触发python垃圾回收
