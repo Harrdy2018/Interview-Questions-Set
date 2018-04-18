@@ -7,26 +7,26 @@ gc模块的自动垃圾回收机制
 垃圾回收=垃圾检查+垃圾回收  
 在python3中，采用分代收集的方法。把对象分为三代，一开始，对象在创建的时候，放在一代，如果在一次一代的垃圾检查中，该对象存活下来，就会被放到二代中，同理在一次二代的垃圾检查中，该对象存活下来，就会被放到三代中。  
 gc模块提供了下列函数：  
-1， 获取gc模块中自动执行垃圾回收的频率
-gc.get_threshold() 
-Return the current collection thresholds as a tuple of (threshold0, threshold1, threshold2).
-2， 设置自动执行垃圾回收的频率
-gc.set_threshold(threshold0[, threshold1[, threshold2]])
-3， 获取当前自动执行垃圾回收的计数器，返回一个长度为3的列表
-gc.get_count() 
-Return the current collection counts as a tuple of (count0, count1, count2).
-4， 开启自动垃圾回收
-gc.enable() 
-Enable automatic garbage collection.
-5， 禁止自动垃圾回收
-gc.disable() 
-Disable automatic garbage collection.
-6， 如果自动垃圾回收功能开启，返回True
-gc.isenabled() 
-Returns true if automatic collection is enabled.
-7,  设置gc的debug日志，一般设置为gc.DEBUG_LEAK
-gc.set_debug(flags)
-8,显式进行垃圾回收，可以输入参数，0代表只检查第一代的对象，1代表检查一，二代的对象，2代表检查一，二，三代的对象，如果不传参数，执行一个full collection，也就是等于传2.返回不可达（unreachable objects）对象的数目
+1， 获取gc模块中自动执行垃圾回收的频率  
+gc.get_threshold()   
+Return the current collection thresholds as a tuple of (threshold0, threshold1, threshold2).  
+2， 设置自动执行垃圾回收的频率  
+gc.set_threshold(threshold0[, threshold1[, threshold2]])  
+3， 获取当前自动执行垃圾回收的计数器，返回一个长度为3的列表  
+gc.get_count()   
+Return the current collection counts as a tuple of (count0, count1, count2).  
+4， 开启自动垃圾回收  
+gc.enable()   
+Enable automatic garbage collection.  
+5， 禁止自动垃圾回收  
+gc.disable()   
+Disable automatic garbage collection.  
+6， 如果自动垃圾回收功能开启，返回True  
+gc.isenabled()   
+Returns true if automatic collection is enabled.   
+7,  设置gc的debug日志，一般设置为gc.DEBUG_LEAK  
+gc.set_debug(flags)  
+8,显式进行垃圾回收，可以输入参数，0代表只检查第一代的对象，1代表检查一，二代的对象，2代表检查一，二，三代的对象，如果不传参数，执行一个full collection，也就是等于传2.返回不可达（unreachable objects）对象的数目  
 gc.collect(generation=2)
 
 一，什么情况下触发python垃圾回收
