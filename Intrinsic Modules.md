@@ -1,8 +1,9 @@
 # 常用内建模块
-## 目录
 * [itertools](#itertools)
 * [functools](#functools)
 ***
+
+
 ## itertools
 ```
 为高效循环创建迭代器的函数
