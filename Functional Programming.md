@@ -5,7 +5,7 @@
     * [函数作为变量](#函数作为变量)
     * [函数作为参数](#函数作为参数)
     * [函数作为返回值](#函数作为返回值)
-    * map/reduce
+    * [map/functools.reduce()](#map/functools.reduce())
     * filter
     * sorted
     * [闭包](#闭包)
