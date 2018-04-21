@@ -15,3 +15,4 @@
   * 匿名函数
   * 装饰器
   * 偏函数
+* [常用内建模块](https://github.com/Harrdy2018/Interview-Questions-Set/blob/master/%E5%B8%B8%E7%94%A8%E5%86%85%E5%BB%BA%E6%A8%A1%E5%9D%97.md)
