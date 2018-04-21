@@ -7,10 +7,6 @@
     * [函数作为返回值](#函数作为返回值)
     * [闭包](#闭包)
     * [强化练习题](#强化练习题)
-* [itertools](#itertools)
-    * itertools.groupby()
-* [functools](#functools)
-    * functools.reduce()
 ## 高阶函数
 ```
 一，接受一个或者多个函数作为输入
