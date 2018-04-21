@@ -13,6 +13,27 @@
 * 生成器(generator)
 * 列表/集合/字典推导式(list,set,dict comprehension)
 ***
+## 容器
+***容器(container)***
+* Ex.1 assert在列表，集合，元组中的用法
+```python
+>>> assert 1 in [1,2,3]
+>>> assert 1 in {1,2,3}
+>>> assert 1 in (1,2,3)
+```
+* Ex.2 询问元素是否在dict中用key
+```python
+>>> d={1:'a',2:'b',3:'c'}
+>>> assert 1 in d
+>>> assert 'a' not in d
+```
+* Ex.3 询问substring是否在string中
+```python
+>>> s='Harrdy2018'
+>>> assert 'H' in s
+>>> assert 'l' not in s
+```
+***
 ## 列表生成式
 ***列表生成式(List Comprehensions)***
 * Ex.1 生成[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
