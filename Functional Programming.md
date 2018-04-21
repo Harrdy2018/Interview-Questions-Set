@@ -133,7 +133,52 @@ print(str_to_int('98765'))
 
 ***
 ### filter
+```
+Python内建的filter()函数用于过滤序列。和map()类似，filter()也接收一个函数和一个序列。
+filter()把传入的函数依次作用于每个元素，然后根据返回值是True决定保留元素，反之。
+```
+* Ex.1 在一个list中，删掉偶数，只保留奇数
+```python
+>>> list(filter(lambda x:x%2==1, [1, 2, 4, 5, 6, 9, 10, 15]))
+[1, 5, 9, 15]
+```
+* Ex.2 把一个序列中的空字符串删掉
+>>> list(filter(lambda s:s and s.strip(), ['A', '', 'B', None, 'C', '  ']))
+['A', 'B', 'C']
 
+***
+### sorted
+***排序算法***<br>
+```
+排序也是在程序中经常用到的算法。无论使用冒泡排序还是快速排序，排序的核心是比较两个元素的大小。
+如果是数字，我们可以直接比较，但如果是字符串或者两个dict呢？
+直接比较数学上的大小是没有意义的，因此，比较的过程必须通过函数抽象出来。
+```
+* Ex.1 对list进行排序
+```python
+>>> sorted([36, 5, -12, 9, -21])
+[-21, -12, 5, 9, 36]
+```
+* Ex.2 sorted()函数也是一个高阶函数，它还可以接收一个key函数来实现自定义的排序，例如按绝对值大小排序
+```python
+>>> sorted([36, 5, -12, 9, -21], key=abs)
+[5, 9, -12, -21, 36]
+```
+* Ex.3 字符串排序，是按照ASCII的大小比较的，由于'Z' < 'a'，结果，大写字母Z会排在小写字母a的前面
+```python
+>>> sorted(['bob', 'about', 'Zoo', 'Credit'])
+['Credit', 'Zoo', 'about', 'bob']
+```
+* Ex.4 sorted传入key函数，即可实现忽略大小写的排序
+```python
+>>> sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
+['about', 'bob', 'Credit', 'Zoo']
+```
+* Ex.5 要进行反向排序，不必改动key函数，可以传入第三个参数reverse=True
+```python
+>>> sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
+['Zoo', 'Credit', 'bob', 'about']
+```
 
 ***
 ### 闭包
