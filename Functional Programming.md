@@ -5,7 +5,7 @@
     * [函数作为变量](#函数作为变量)
     * [函数作为参数](#函数作为参数)
     * [函数作为返回值](#函数作为返回值)
-    * [map/functools.reduce()](#map/functools.reduce())
+    * map/functools.reduce()
     * filter
     * sorted
     * [闭包](#闭包)
@@ -87,10 +87,6 @@ print(list(x**2 for x in range(0,10)))
 >>> list(map(str,range(0,5)))
 ['0', '1', '2', '3', '4']
 ```
-
-
-
-
 ### 闭包
 如果在一个内部函数里，对在外部作用域（但不是在全局作用域）的变量进行引用，那么内部函数就被认为是闭包（closure)。<br>
 在上面的return_nu函数中，内部函数all能引用外部函数的变量，这就是闭包。
