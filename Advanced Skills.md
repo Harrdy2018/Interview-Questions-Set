@@ -1,5 +1,5 @@
 # 高级技巧
-* if-else
+* [if-else](#if-else)
 
 ***
 ## if-else
