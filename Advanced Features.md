@@ -58,8 +58,8 @@ z = C
 ```
 ***
 ## 生成器
-* 引例`(i for i in range(10))`它就是一个generator
-** 
+***生成器(gennerator)***
+* 引例`(i for i in range(10))`它就是一个generator,必须用list方法转化为列表！！
 ```python
 >>> m=(i for i in range(10))
 >>> type(m)
