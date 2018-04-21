@@ -16,3 +16,14 @@
   * 装饰器
   * 偏函数
 * [常用内建模块](https://github.com/Harrdy2018/Interview-Questions-Set/blob/master/Intrinsic%20Modules.md)
+  * itertools
+  * functools
+* [高级特性](https://github.com/Harrdy2018/Interview-Questions-Set/blob/master/Advanced%20Features.md)
+  * 容器
+  * 切片
+  * 迭代
+  * 列表生成式
+  * 生成器
+  * 迭代器
+* [高级技巧](https://github.com/Harrdy2018/Interview-Questions-Set/blob/master/Advanced%20Skills.md)
+    * if-else
