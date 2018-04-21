@@ -4,11 +4,10 @@
     * [函数作为变量](#函数作为变量)
     * [函数作为参数](#函数作为参数)
     * [函数作为返回值](#函数作为返回值)
-    * map/functools.reduce()
-    * filter
-    * sorted
+    * [map/functools.reduce()](#map)
+    * [filter](#filter)
+    * sorted(#filter)
     * [闭包](#闭包)
-    * [强化练习题](#强化练习题)
 
 ***
 ## 高阶函数
@@ -35,6 +34,7 @@ ph('python3')
 ### 函数作为参数
 变量能指向函数，函数的参数能接收变量，那么一个函数就能接收另一个函数作为参数，这种函数就称之为高阶函数。
 编写高阶函数，就是让函数的参数能够接收别的函数。<br>
+* Ex.1
 ```python
 def get(a):
     return a*10
@@ -43,6 +43,19 @@ def printAll(x,y,func):
 printAll(3,3,get)  
 >>>60
 ```
+* Ex.2
+```python
+def abssum(f,*num):
+    sum=0
+    for item in num:
+        sum+=f(item)
+    return sum
+result=abssum(abs,1,2,3,-4)
+print(result)
+>>>10
+```
+
+***
 ### 函数作为返回值
 高阶函数除了能接受函数作为参数外，还能把函数作为结果值返回。
 ```python
@@ -60,7 +73,7 @@ print(accu())
 调用return_nu函数时，没有计算乘积，而是返回了一个计算乘积的函数。调用这个返回的函数，才会计算乘积。
 
 ***
-### map/functools.reduce()
+### map
 ```
 Python3内建了map()和functools.reduce()函数
 map(function, iterable, ...) 
@@ -92,24 +105,16 @@ print(list(x**2 for x in range(0,10)))
 ```
 
 ***
-### 闭包
-如果在一个内部函数里，对在外部作用域（但不是在全局作用域）的变量进行引用，那么内部函数就被认为是闭包（closure)。<br>
-在上面的return_nu函数中，内部函数all能引用外部函数的变量，这就是闭包。
-### 强化练习题
-* 请分析下面一段代码的原理，研究函数作为参数是如何使用的。
+***functools.reduce用法***
+reduce把一个函数作用在一个序列[x1, x2, x3, ...]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算，其效果就是：<br>
+reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)<br>
+* Ex.1 对一个序列求和
 ```python
-def abssum(f,*num):
-    sum=0
-    for item in num:
-        sum+=f(item)
-    return sum
-result=abssum(abs,1,2,3,-4)
+import functools
+result=functools.reduce(lambda x,y:x+y,[1,3,5,7,9])
 print(result)
->>>10
 ```
-***
-
-* 不要用int函数，另外写一函数，将类似于'98765'的字符串转化为类似于98765的数字
+* Ex.2 不要用int函数，另外写一函数，将类似于'98765'的字符串转化为类似于98765的数字
 ```python
 from functools import reduce
 digits={'0':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9}
@@ -121,4 +126,7 @@ print(str_to_int('98765'))
 >>>98765
 ```
 
-
+***
+### 闭包
+如果在一个内部函数里，对在外部作用域（但不是在全局作用域）的变量进行引用，那么内部函数就被认为是闭包（closure)。<br>
+在上面的return_nu函数中，内部函数all能引用外部函数的变量，这就是闭包。
