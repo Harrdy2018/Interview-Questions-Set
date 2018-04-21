@@ -4,9 +4,10 @@
     * [函数作为变量](#函数作为变量)
     * [函数作为参数](#函数作为参数)
     * [函数作为返回值](#函数作为返回值)
-    * [map/functools.reduce()](#map)
+    * [map](#map)
+    * [functools.reduce()](#reduce)
     * [filter](#filter)
-    * sorted(#filter)
+    * [sorted](#sorted)
     * [闭包](#闭包)
 
 ***
@@ -105,7 +106,8 @@ print(list(x**2 for x in range(0,10)))
 ```
 
 ***
-***functools.reduce用法***
+### reduce
+***functools.reduce用法***<br>
 reduce把一个函数作用在一个序列[x1, x2, x3, ...]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算，其效果就是：<br>
 reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)<br>
 * Ex.1 对一个序列求和
