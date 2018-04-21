@@ -207,3 +207,22 @@ filter()把传入的函数依次作用于每个元素，然后根据返回值是
 
 ***
 ## 偏函数
+Python的functools模块提供了很多有用的功能，其中一个就是偏函数（Partial function）。要注意，这里的偏函数和数学意义上的偏函数不一样。<br>
+在介绍函数参数的时候，我们讲到，通过设定参数的默认值，可以降低函数调用的难度。而偏函数也可以做到这一点。<br>
+* Ex.1 int()函数还提供额外的base参数，默认值为10。如果传入base参数，就可以做N进制的转换
+```python
+>>> int('12',base=10)
+12
+>>> int('12',base=8)
+10
+>>> int('12',base=16)
+18
+```
+* Ex.2 functools.partial()创建一个偏函数
+```python
+>>> import functools
+>>> int2=functools.partial(int,base=2)
+>>> int2('1000000')
+64
+```
+***简单总结functools.partial()的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单***
