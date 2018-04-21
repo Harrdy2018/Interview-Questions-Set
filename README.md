@@ -14,7 +14,7 @@
     * 闭包
     * map
     * functools.reduce()
-    * filter
+    * filter
     * sorted
   * 匿名函数
   * 装饰器
