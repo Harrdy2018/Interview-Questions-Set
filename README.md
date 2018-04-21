@@ -140,5 +140,5 @@ if __name__=="__main__":
 ```
 IT笔试的时候，一般输出不是让你简单的输出结果，一般先是给出让你计算这个程序多少次，每次给一个数据，然后再让你输出所有结果。<br>
 当然这个程序还是存在问题的，就是当n特别大的时候，时间复杂度大，在笔试中只可以拿30%的分数。<br>
-***参考源码***:<br>
+***参考源码***：<br>
 [Fibonacci sequence.py](https://github.com/Harrdy2018/Interview-Questions-Set/blob/master/Fibonacci%20sequence.py)
