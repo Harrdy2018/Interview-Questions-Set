@@ -1,4 +1,5 @@
 # 高级特性
+* [容器](#容器)
 * [切片](#切片)
 * [迭代](#迭代)
 * [列表生成式](#列表生成式)
@@ -54,4 +55,17 @@ z = C
 >>> L = ['Hello', 'World', 'IBM', 'Apple']
 >>> [s.lower() for s in L]
 ['hello', 'world', 'ibm', 'apple']
+```
+***
+## 生成器
+* 引例`(i for i in range(10))`它就是一个generator
+** 
+```python
+>>> m=(i for i in range(10))
+>>> type(m)
+<class 'generator'>
+>>> list(m)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> [m]
+[<generator object <genexpr> at 0x000002445AAF7990>]
 ```
