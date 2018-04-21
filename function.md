@@ -1,14 +1,7 @@
-# Python3.6.1教程
+# 函数
+* [递归函数](#递归函数)
 ***
-|Author|Harrdy2018|
-|:----------------:|:----------------:|
-|Email|995122077@qq.com|
-## 目录
-* [函数](#函数)
-  * [递归函数](#递归函数)
-
-## 函数
-### 递归函数
+## 递归函数
 **定义：如果一个函数在内部调用自身本身，这个函数就是递归(recursion)函数。**
 ```
 举个例子，我们来计算阶乘(factorial),用函数fact(n)表示，可以看出：fact(n)=fact(n-1)xn
@@ -144,4 +137,3 @@ IT笔试的时候，一般输出不是让你简单的输出结果，一般先是
 当然这个程序还是存在问题的，就是当n特别大的时候，时间复杂度大，在笔试中只可以拿30%的分数。<br>
 ***参考源码***：<br>
 [Fibonacci sequence.py](https://github.com/Harrdy2018/Interview-Questions-Set/blob/master/Fibonacci%20sequence.py)
-
