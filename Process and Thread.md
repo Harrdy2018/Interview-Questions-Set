@@ -279,3 +279,77 @@ join()阻塞当前进程，等待子进程的推出，join()要用在close()或t
 因为为非阻塞，主函数会自己执行自个的，不搭理进程的执行，所以有****************
 最后主程序在pool.join（）处等待各个进程的结束。然后自己再结束
 ```
+
+***
+# 使用阻塞进程池
+```python
+from multiprocessing.pool import Pool
+import time,os
+
+def f(name):
+    print('%s current child process %s start runing...'%(name,os.getpid()))
+    time.sleep(1)
+    print('%s current child process %s end'%(name,os.getpid()))
+
+if __name__=="__main__":
+    print("parent process %s run..."% os.getpid())
+    p=Pool(processes=3)
+    for i in range(4):
+        p.apply(func=f,args=(i,))
+    print('****************')
+    p.close()
+    p.join()
+    print("parent process %s end..."% os.getpid())
+>>>
+parent process 8112 run...
+0 current child process 7976 start runing...
+0 current child process 7976 end
+1 current child process 4540 start runing...
+1 current child process 4540 end
+2 current child process 3556 start runing...
+2 current child process 3556 end
+3 current child process 7976 start runing...
+3 current child process 7976 end
+****************
+parent process 8112 end...
+```
+
+***
+# 关注进程池结果
+* get()得出每个结果返回的值
+```python
+from multiprocessing.pool import Pool
+import time,os
+
+def f(name):
+    print('%s current child process %s start runing...'%(name,os.getpid()))
+    time.sleep(1)
+    print('%s current child process %s end'%(name,os.getpid()))
+    return('%s current child process %s end'%(name,os.getpid()))
+
+if __name__=="__main__":
+    print("parent process %s run..."% os.getpid())
+    p=Pool(processes=3)
+    result=[]
+    for i in range(3):
+        result.append(p.apply_async(func=f,args=(i,)))
+    print('****************')
+    p.close()
+    p.join()
+    for item in result:
+        print("*****",item.get())
+    print("parent process %s end..."% os.getpid())
+>>>
+parent process 7552 run...
+****************
+0 current child process 8136 start runing...
+1 current child process 5584 start runing...
+2 current child process 6180 start runing...
+0 current child process 8136 end
+1 current child process 5584 end
+2 current child process 6180 end
+***** 0 current child process 8136 end
+***** 1 current child process 5584 end
+***** 2 current child process 6180 end
+parent process 7552 end...
+``
