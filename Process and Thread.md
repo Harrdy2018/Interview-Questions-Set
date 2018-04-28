@@ -225,3 +225,53 @@ process2 ** 8228
 ```
 **发现是先执行完p1,再执行主进程，最后才开始p2**
 **join是用来阻塞当前进程的，p1.start()之后，p1就提示主进程，你要等我执行完之后你再执行你的，那么主进程就乖乖的等，自然就没有执行p2.start()这一句话了**
+
+
+***
+# 使用进程池
+* multiprocessing.pool.Pool([processes[, initializer[, initargs[, maxtasksperchild[, context]]]]])
+* 调用join之前要先调用join函数，否则会出错。执行完close后不会有新的进程加入到进程池，join函数等待所有子进程结束
+```python
+from multiprocessing.pool import Pool
+import time,os
+
+def f(name):
+    print('%s current child process %s start runing...'%(name,os.getpid()))
+    time.sleep(1)
+    print('%s current child process %s end'%(name,os.getpid()))
+
+if __name__=="__main__":
+    print("parent process %s run..."% os.getpid())
+    p=Pool(processes=3)
+    for i in range(4):
+        p.apply_async(f,(i,))#维持执行进程的总数为3,当一个进程执行完之后，会添加新的进程进去
+    print('****************')
+    p.close()
+    p.join()
+    print("parent process %s end..."% os.getpid())
+>>>
+parent process 2376 run...
+****************
+0 current child process 2096 start runing...
+1 current child process 6328 start runing...
+2 current child process 3980 start runing...
+0 current child process 2096 end
+3 current child process 2096 start runing...
+1 current child process 6328 end
+2 current child process 3980 end
+3 current child process 2096 end
+parent process 2376 end...
+```
+***
+```
+apply_async(func[, args[, kwds[, callback[, error_callback]]]]) 异步，非阻塞    async:异步的
+apply(func[, args[, kwds]]) 阻塞的
+close()关闭pool，使其不再接受新的任务
+terminate()结束工作进程，不再处理未完成的任务
+join()阻塞当前进程，等待子进程的推出，join()要用在close()或terminate()之后
+```
+***
+```
+执行说明：
+创建一个进程池pool，并设定进程的数量为3，range(4)会相继产生四个对象[0, 1, 2, 3]，四个对象被提交到pool中，因pool指定进程数为3，所以0、1、2会直接送到进程中执行，当其中一个执行完事后才空出一个进程处理对象3，因为为非阻塞，主函数会自己执行自个的，不搭理进程的执行，主程序在pool.join（）处等待各个进程的结束。
+```
