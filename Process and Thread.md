@@ -1,4 +1,11 @@
 # 进程和线程
+* [定义](#定义)
+* [多进程](#多进程)
+* [例子一](#例子一)
+* [例子二](#例子二)
+* [例子三](#例子三)
+* [例子四](#例子四)
+* [例子五](#例子五)
 
 
 ***
@@ -30,3 +37,191 @@ Python的os模块封装了常见的系统调用，其中就包括fork，可以�
 * 并行：当系统有一个以上CPU时,则线程的操作有可能非并发。当一个CPU执行一个线程时，另一个CPU可以执行另一个线程，两个线程互不抢占CPU资源，可以同时进行，这种方式我们称之为并行(Parallel)
 * 进程同步:就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。也就是必须一件一件事做,等前一件做完了才能做下一件事.就像早上起床后,先洗涮,然后才能吃饭,不能在洗涮没有完成时,就开始吃饭.按照这个定义，其实绝大多数函数都是同步调用（例如sin,isdigit等）。但是一般而言，我们在说同步、异步的时候，特指那些需要其他部件协作或者需要一定时间完成的任务。最常见的例子就是sendmessage。该函数发送一个消息给某个窗口，在对方处理完消息之前，这个函数不返回。当对方处理完毕以后，该函数才把消息处理函数所返回的lresult值返回给调用者。
 * 进程异步:异步的概念和同步相对
+
+***
+# 多进程例子
+# 例子一
+* 程序一旦开始执行就在此刻创建一个父进程，然后我们用程序创建两个子进程
+```python
+from multiprocessing import Process
+import os,time
+def r1(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(2)
+def r2(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(2)
+if __name__=="__main__":
+    print("parent process %s  run..."% os.getpid())
+    p1=Process(target=r1,args=('process1',))
+    p2 = Process(target=r2, args=('process2',))
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()
+    print("parent process %s  end"% os.getpid())
+>>>
+parent process 5656  run...
+process1 ** 5232
+process2 ** 8836
+process1 ** 5232
+process2 ** 8836
+process1 ** 5232
+process2 ** 8836
+process1 ** 5232
+process2 ** 8836
+process1 ** 5232
+process2 ** 8836
+parent process 5656  end
+```
+***
+# 例子二
+* `multiprocessing.Process(group=None, target=None, name=None, args=(), kwargs={}, *, daemon=None)`
+* `run方法 如果在创建Process对象的时候不指定target,那么就会默认执行Process的run方法`
+```python
+from multiprocessing import Process
+import  os
+def r():
+    print("process %s run the method"% os.getpid())
+
+if __name__=="__main__":
+    print('parent process %s run..'% os.getpid())
+    #没有指定Process的target
+    p1=Process()
+    p2=Process()
+    #如果在创建Process时候不指定target,那么执行时木有任何效果。
+    #因为默认的run方法是判断如果不指定target，那就什么都不做
+    #所以这里手动改变run方法
+    p1.run=r
+    p2.run=r
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()
+    print("parent process %s end"% os.getpid())
+>>>
+parent process 8360 run..
+process 6560 run the method
+process 7312 run the method
+parent process 8360 end
+```
+
+***
+# 例子三
+* join()方法：阻塞当前进程，直到调用join方法的那个进程执行完，再继续执行当前进程
+* 把例子一代码的两个join注释掉
+```python
+from multiprocessing import Process
+import os,time
+def r1(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(2)
+def r2(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(2)
+if __name__=="__main__":
+    print("parent process %s  run..."% os.getpid())
+    p1=Process(target=r1,args=('process1',))
+    p2 = Process(target=r2, args=('process2',))
+    p1.start()
+    p2.start()
+    #p1.join()
+    #p2.join()
+    print("parent process %s  end"% os.getpid())
+>>>
+parent process 8428  run...
+parent process 8428  end
+process1 ** 4868
+process2 ** 6112
+process1 ** 4868
+process2 ** 6112
+process1 ** 4868
+process2 ** 6112
+process1 ** 4868
+process2 ** 6112
+process1 ** 4868
+process2 ** 6112
+```
+**加join()函数是把主进程阻塞，直到子进程进行完，再执行主进程；而注释掉join()主进程先执行完**
+
+# 例子四
+* 加大进程2的睡眠时间，注释掉p2.join()
+```python
+from multiprocessing import Process
+import os,time
+def r1(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(2)
+def r2(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(5)
+if __name__=="__main__":
+    print("parent process %s  run..."% os.getpid())
+    p1=Process(target=r1,args=('process1',))
+    p2 = Process(target=r2, args=('process2',))
+    p1.start()
+    p2.start()
+    p1.join()
+    #p2.join()
+    print("parent process %s  end"% os.getpid())
+>>>
+parent process 8288  run...
+process1 ** 6812
+process2 ** 5640
+process1 ** 6812
+process1 ** 6812
+process2 ** 5640
+process1 ** 6812
+process1 ** 6812
+parent process 8288  end
+process2 ** 5640
+process2 ** 5640
+process2 ** 5640
+```
+**由于是p1.join(),执行这一步的时候，阻塞当前进程，先把p1执行，以后，由于没有阻塞，所以就要执行父进程，最后把木有执行完的子进程执行完**
+
+***
+# 例子五
+* 为什么对于所有的子进程是先依次调用start再调用join，而不是每一子进程调用start就立刻调用join呢
+```python
+from multiprocessing import Process
+import os,time
+def r1(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(2)
+def r2(name):
+    for i in range(5):
+        print(name,"**",os.getpid())
+        time.sleep(5)
+if __name__=="__main__":
+    print("parent process %s  run..."% os.getpid())
+    p1=Process(target=r1,args=('process1',))
+    p2 = Process(target=r2, args=('process2',))
+    p1.start()
+    p1.join()
+    p2.start()
+    #p2.join()
+    print("parent process %s  end"% os.getpid())
+>>>
+parent process 3936  run...
+process1 ** 8952
+process1 ** 8952
+process1 ** 8952
+process1 ** 8952
+process1 ** 8952
+parent process 3936  end
+process2 ** 8228
+process2 ** 8228
+process2 ** 8228
+process2 ** 8228
+process2 ** 8228
+```
+**发现是先执行完p1,再执行主进程，最后才开始p2**
+**join是用来阻塞当前进程的，p1.start()之后，p1就提示主进程，你要等我执行完之后你再执行你的，那么主进程就乖乖的等，自然就没有执行p2.start()这一句话了**
