@@ -112,6 +112,30 @@ z = C
 ```
 
 ***
+* Ex.1 斐波拉契数列（Fibonacci）
+```python
+def fib(N):
+    n,a,b=0,0,1
+    while N>n:
+        a,b=b,a+b
+        yield a
+        n=n+1
+>>>
+>>> f=fib(7)
+>>> for item in f:
+	print(item)
+
+	
+1
+1
+2
+3
+5
+8
+13
+```
+
+***
 ## 迭代器
 ***迭代器(Iterator)***<br>
 **可以被next()函数调用并不断返回下一个值的对象称为迭代器**
