@@ -159,3 +159,73 @@ while True:
 4
 5
 ```
+
+***
+* Ex.4 生成无限序列
+```python
+>>> from itertools import count
+>>> counter=count(start=13)
+>>> next(counter)
+13
+>>> next(counter)
+14
+```
+
+***
+* Ex.5 从一个有限序列中生成无限序列
+```python
+>>> from itertools import cycle
+>>> num=cycle([1,2,3])
+>>> next(num)
+1
+>>> next(num)
+2
+>>> next(num)
+3
+>>> next(num)
+1
+```
+
+***
+* Ex.6 从无限序列中生成有限序列
+```python
+>>> from itertools import islice
+>>> from itertools import cycle
+>>> num=cycle([1,2])
+>>> limit=islice(num,0,4)
+>>> next(limit)
+1
+>>> next(limit)
+2
+>>> next(limit)
+1
+>>> next(limit)
+2
+>>> next(limit)
+Traceback (most recent call last):
+  File "<pyshell#36>", line 1, in <module>
+    next(limit)
+StopIteration
+```
+
+***
+* Ex.7 自定迭代器 斐波拉契数列（Fibonacci）
+```python
+class Fib:
+    def __init__(self):
+        self.prev=0
+        self.curr=1
+    def __iter__(self):
+        #可迭代对象
+        return self
+    def __next__(self):
+        #迭代器
+        value=self.curr
+        self.curr=self.curr+self.prev
+        self.prev=value
+        return value
+>>> f=Fib()
+>>> from itertools import islice
+>>> list(islice(f,0,10))
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+```
