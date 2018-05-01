@@ -34,6 +34,29 @@
 >>> assert 'l' not in s
 ```
 ***
+
+## 可迭代对象
+***str,list,dict,tuple,generator,set都是可迭代对象***<br>
+**Iterable:可以直接作用于for循环的对象统称为可迭代对像**
+* Ex.1 可以使用isinstance()判断一个对象是否是Iterable
+```python
+>>> from collections import Iterable
+>>> isinstance('Harrdy2018',Iterable)
+True
+>>> isinstance('[1,2,3,4]',Iterable)
+True
+>>> isinstance({'a':1,'b':2},Iterable)
+True
+>>> isinstance((1,2,3),Iterable)
+True
+>>> isinstance((x for x in range(10)),Iterable)
+True
+>>> isinstance({1,2,3},Iterable)
+True
+```
+
+
+
 ## 列表生成式
 ***列表生成式(List Comprehensions)***
 * Ex.1 生成[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -77,16 +100,59 @@ z = C
 >>> [s.lower() for s in L]
 ['hello', 'world', 'ibm', 'apple']
 ```
+
 ***
 ## 生成器
 ***生成器(generator)***
-* 引例`(i for i in range(10))`它就是一个generator,必须用list方法转化为列表！！
+```
+注意区别以下两种情况：
+[x for x in range(10)]------>>列表生成式
+(x for x in range(10))------>>generator
+```
+
+***
+## 迭代器
+***迭代器(Iterator)***<br>
+**可以被next()函数调用并不断返回下一个值的对象称为迭代器**
+* Ex.1 使用isinstance()判断一个对象是否是Iterator
 ```python
->>> m=(i for i in range(10))
->>> type(m)
-<class 'generator'>
->>> list(m)
-[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
->>> [m]
-[<generator object <genexpr> at 0x000002445AAF7990>]
+>>> from collections import Iterator
+>>> isinstance((x for x in range(10)),Iterator)
+True
+```
+
+* Ex.2 生成器都是Iterator，但list、dict、str...虽然是Iterable，却不是Iterator。
+* 把list、dict、str等Iterable变成Iterator可以使用iter()函数
+```python
+>>> from collections import Iterator
+>>> isinstance(iter('Harrdy2018'),Iterator)
+True
+>>> isinstance(iter([1,2,3]),Iterator)
+True
+>>> isinstance(iter({'a':1,'b':2}),Iterator)
+True
+>>> isinstance(iter({1,2,3}),Iterator)
+True
+```
+```
+为什么？
+这是因为Python的Iterator对象表示的是一个数据流，Iterator对象可以被next()函数调用并不断返回下一个数据，直到没有数据时抛出StopIteration错误。可以把这个数据流看做是一个有序序列，但我们却不能提前知道序列的长度，只能不断通过next()函数实现按需计算下一个数据，所以Iterator的计算是惰性的，只有在需要返回下一个数据时它才会计算。
+Iterator甚至可以表示一个无限大的数据流，例如全体自然数。而使用list是永远不可能存储全体自然数的。
+```
+
+* Ex.3 for循环本质就是通过不断调用next()函数实现的
+```python
+it=iter([1,2,3,4,5])
+while True:
+    try:
+        x=next(it)
+        print(x)
+    except StopIteration:
+        break
+>>>
+1
+2
+3
+4
+5
 ```
