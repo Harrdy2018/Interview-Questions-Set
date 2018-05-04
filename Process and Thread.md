@@ -12,6 +12,7 @@
 * [多线程](#多线程)
 * [线程锁](#线程锁)
 * [多核处理器](#多核处理器)
+* [为什么说多线程是鸡肋](#为什么说多线程是鸡肋)
 * [多线程小结](#多线程小结)
 * [](#)
 
@@ -453,6 +454,73 @@ GIL是Python解释器设计的历史遗留问题，通常我们用的解释器�
 那只能通过C扩展来实现，不过这样就失去了Python简单易用的特点。
 不过，也不用过于担心，Python虽然不能利用多线程实现多核任务，但可以通过多进程实现多核任务。
 多个Python进程有各自独立的GIL锁，互不影响。
+```
+
+***
+# 为什么说多线程是鸡肋
+* 实验：将数字一亿递减，减到0就终止，计算时间
+* 单线程花费16秒
+```python
+import threading,multiprocessing,time
+print("thread %s is running..."% threading.current_thread().name)
+n=multiprocessing.cpu_count()
+print("自己电脑上CPU的核数为%s核！！！"% n)
+#任务
+def decrement(n):
+    while n>0:
+        n-=1
+#single thread
+start=time.time()
+decrement(100000000)
+cost=time.time()-start
+print(cost)
+print("thread %s ended"% threading.current_thread().name)
+>>>
+thread MainThread is running...
+自己电脑上CPU的核数为4核！！！
+16.042685508728027
+thread MainThread ended
+```
+
+***
+* 多线程
+```python
+import threading,multiprocessing,time
+print("thread %s is running..."% threading.current_thread().name)
+n=multiprocessing.cpu_count()
+print("自己电脑上CPU的核数为%s核！！！"% n)
+#任务
+def decrement(n):
+    while n>0:
+        n-=1
+#single thread
+start=time.time()
+t1=threading.Thread(target=decrement,args=(100000000,))
+t2=threading.Thread(target=decrement,args=(100000000,))
+t1.start()
+t2.start()
+t1.join()#主线程阻塞，直到t1执行完成，主线程继续往后执行
+t2.join()
+cost=time.time()-start
+print(cost/2)
+print("thread %s ended"% threading.current_thread().name)
+>>>
+thread MainThread is running...
+自己电脑上CPU的核数为4核！！！
+16.09876549243927
+thread MainThread ended
+```
+
+***
+* 多线程不快反而慢
+```
+在Cpython解释器(python语言的主流解释器)中，有一把GIL(Global Interpreter Lock 全局解释器锁),在解释器解释执行python代码时，先要得到这把锁，
+意味着，任何时候只可能有一个线程在执行代码，其他线程要想获得CPU执行代码指令，就必须先获得这把锁，如果锁被其他线程占用了，
+那么该线程就只能等待，直到占有该锁的线程释放锁才有执行代码指令的可能。
+
+因此，这也就是为什么两个线程一起执行反而更加慢的原因，因为同一时刻，只有一个线程在运行，其它线程只能等待，即使是多核CPU，
+也没办法让多个线程「并行」地同时执行代码，只能是交替执行，因为多线程涉及到上线文切换、锁机制处理（获取锁，释放锁等），
+所以，多线程执行不快反慢。
 ```
 
 ***
